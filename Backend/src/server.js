@@ -1,21 +1,33 @@
+import "../instrument.mjs";
 import express from "express";
 import { ENV } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 import { clerkMiddleware } from "@clerk/express";
 import { functions, inngest } from "./config/inngest.js";
 import { serve } from "inngest/express";
+import chatRoutes from "./routes/chat.route.js";
+import * as Sentry from "@sentry/node";
 
 const app = express();
 
-app.use(clerkMiddleware());
-
 app.use(express.json());
-// Set up the "/api/inngest" (recommended) routes with the serve handler
-app.use("/api/inngest", serve({ client: inngest, functions }));
+app.use(clerkMiddleware());
 
 app.get("/", (req, res) => {
   res.send("hello");
 });
+
+app.get("/debug-sentry", (req, res) => {
+  throw new Error("My first glitchtip error!");
+});
+
+// Set up the "/api/inngest" (recommended) routes with the serve handler
+app.use("/api/inngest", serve({ client: inngest, functions }));
+
+// Routes for chatting (using Stream)
+app.use("/api/chat", chatRoutes);
+
+Sentry.setupExpressErrorHandler(app);
 
 const startServer = async () => {
   try {
