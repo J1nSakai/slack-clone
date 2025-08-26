@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import * as Sentry from "@sentry/react";
 
@@ -58,7 +58,7 @@ export const useStreamChat = () => {
 
     // cleanup
     return () => {
-      if (chatClient) chatClient.disconnetUser();
+      if (chatClient) chatClient.disconnectUser();
     };
   }, [tokenData, user, chatClient]);
 
