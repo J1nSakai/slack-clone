@@ -14,6 +14,7 @@ const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 export const useStreamChat = () => {
   const { user } = useUser();
   const [chatClient, setChatClient] = useState(null);
+  let cancelled = false;
 
   // fetch stream token using react query
 
@@ -39,7 +40,7 @@ export const useStreamChat = () => {
           name: user.fullName,
           image: user.imageUrl,
         });
-        setChatClient(client);
+        if (!cancelled) setChatClient(client);
       } catch (error) {
         console.log("Error connecting to StreamChat:", error);
         Sentry.captureException(error, {
@@ -58,9 +59,10 @@ export const useStreamChat = () => {
 
     // cleanup
     return () => {
-      if (chatClient) chatClient.disconnetUser();
+      cancelled = true;
+      chatClient.disconnetUser();
     };
-  }, [tokenData, user, chatClient]);
+  }, [tokenData, user]);
 
   return { chatClient, isLoading: tokenLoading, error: tokenError };
 };
