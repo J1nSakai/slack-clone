@@ -1,14 +1,1 @@
-*,
-*::before,
-*::after {
-  margin: 0%;
-  padding: 0%;
-  box-sizing: border-box; /* Ensures consistent box model sizing */
-}
-html,
-body {
-  font-family: Bahnschrift, Ariel;
-  line-height: 1.6; /* Sets a comfortable line height for text */
-  height: 100%;
-  width: 100%;
-}
+@import "tailwindcss";
