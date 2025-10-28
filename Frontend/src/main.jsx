@@ -1,21 +1,19 @@
+import { ClerkProvider } from "@clerk/clerk-react";
+import * as Sentry from "@sentry/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
-import { ClerkProvider } from "@clerk/clerk-react";
+import { Toaster } from "react-hot-toast";
 import {
   BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-  useNavigationType,
   createRoutesFromChildren,
   matchRoutes,
+  useLocation,
+  useNavigationType,
 } from "react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
+import App from "./App.jsx";
+import "./index.css";
 import AuthProvider from "./providers/AuthProvider.jsx";
-import * as Sentry from "@sentry/react";
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -25,7 +23,7 @@ if (!PUBLISHABLE_KEY) {
 }
 
 Sentry.init({
-  dsn: "https://9f021296132e4e48b4b96f77eddf02bf@app.glitchtip.com/12569",
+  dsn: import.meta.env.VITE_GLITCHTIP_DSN,
   integrations: [
     Sentry.reactRouterV7BrowserTracingIntegration({
       useEffect: React.useEffect,

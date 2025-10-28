@@ -11,4 +11,5 @@ export const ENV = {
   GLITCHTIP_DSN: process.env.GLITCHTIP_DSN,
   INNGEST_EVENT_KEY: process.env.INNGEST_EVENT_KEY,
   INNGEST_SIGNING_KEY: process.env.INNGEST_SIGNING_KEY,
+  CLIENT_URL: process.env.CLIENT_URL,
 };
